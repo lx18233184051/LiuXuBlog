@@ -215,6 +215,70 @@
 
 
   
+    <article id="post-如何修复端口占用问题。" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/04/如何修复端口占用问题。/">如何修复端口占用问题</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/04/如何修复端口占用问题。/" class="archive-article-date">
+  	<time datetime="2019-09-04T09:51:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h2><p>最近在做项目时，遇到一个很恶心的问题，当启动server时，因为工程在运行时会创建socket因此会占用端口，可是在析构或者遇到崩溃的情况时，端口并没有释放。于是当第二次启动，就会出现端口被占用问题。</p>
+<p>##　 解决方案<br>当检测到端口被占用时， 查询端口占用情况，会返回端口占用的进程信息。如果被占用，就把占用的进程kill掉。 在c++中，如果要执行shell语句，最好是通过popen()来执行。（<a href="https://www.jianshu.com/writer#/notebooks/38575558/notes/53599249" target="_blank" rel="noopener">popen请看</a><br>执行lsof -i:%d（端口号）　来查询占用端口的相关进程信息。然后通过fget把文件流写入到字符串中。再通过strtok(buff, “ “)截取ＰＩＤ信息，最口通过Ｌｉｎｕｘ的kill(pID, SIGKILL)直接kill那个占用端口的进程就可以了。下面上相关的代码。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/04/如何修复端口占用问题。/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-new" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
