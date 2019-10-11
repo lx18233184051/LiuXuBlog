@@ -292,7 +292,7 @@
 	Posted on
 
 	<a href="/2019/10/11/U盘“抽插”/" itemprop="url">
-		<time datetime="2019-10-11T08:29:36.025Z" itemprop="datePublished">
+		<time datetime="2019-10-11T08:38:24.574Z" itemprop="datePublished">
 	  		2019-10-11
 	  </time>
 	</a>
@@ -310,7 +310,7 @@
 	Updated on
 
 	<a href="/2019/10/11/U盘“抽插”/" itemprop="url">
-		<time datetime="2019-10-11T08:29:36.025Z" itemprop="dateUpdated">
+		<time datetime="2019-10-11T08:38:24.574Z" itemprop="dateUpdated">
 	  		2019-10-11
 	  </time>
 	</a> 
@@ -330,8 +330,8 @@
 	</div>
 
 	<div class="article-content" id="article-content">
-		<h2 id="Quick-Brief"><a href="#Quick-Brief" class="headerlink" title="Quick Brief"></a>Quick Brief</h2><pre><code>Ｕ盘关于工程的读入和拷贝</code></pre><p>###　最近用到了从不同工作站中向Ｕ盘拷贝项目的功能，需要开发Ｕ盘挂载拷贝功能<br> 1 : 首先U盘挂载</p>
-	
+		<h2 id="Quick-Brief"><a href="#Quick-Brief" class="headerlink" title="Quick Brief"></a>Quick Brief</h2><pre><code>Ｕ盘关于工程的读入和拷贝</code></pre><p>###　最近用到了从不同工作站中向Ｕ盘拷贝项目的功能，需要开发Ｕ盘挂载拷贝功能<br> 1 : UDEV<br>    目前很多的Linux分发版本采纳了udev的方式，因为它在Linux设备访问，特别是那些对设备有极端需求的站点（比如需要控制上千个硬盘）和热插拔设备（比如USB摄像头和MP3播放器）上解决了几个问题。下面我我们来看看如何管理udev设备。实际上，对于那些为磁盘，终端设备等准备的标准配置文件而言，你不需要修改什么。但是，你需要了解udev配置来使用新的或者外来设备，如果不修改配置，这些设备可能无法访问，或者说Linux可能会采用不恰当的名字，属组或权限来创建这些设备文件。你可能也想知道如何修改RS－232串口，音频设备等文件的属组或者权限。这点在实际的Linux实施中是会遇到的。<br>    udev配置文件<br>    主要的udev配置文件是/etc/udev/udev.conf。这个文件通常很短，他可能只是包含几行#开头的注释，然后有几行选项：<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ udev_root=<span class="string">"/dev/"</span></span><br><span class="line"></span><br><span class="line">udev_rules=<span class="string">"/etc/udev/rules.d/"</span></span><br><span class="line"></span><br><span class="line">udev_log=<span class="string">"err"</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>首先U盘挂载</code></pre>	
 	</div>
 	
 	<div id="current-post-cover" data-scr="/img/cart_cover.jpg"></div>
