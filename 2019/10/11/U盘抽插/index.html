@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <title>
     
-      C++的顶层const和底层const | Hexo
+      U盘拷贝和写入 | Hexo
     
   </title>
   <meta name="author" content="John Doe">
@@ -160,7 +160,7 @@
 	<!-- Page title -->
 	<p>
 		
-			Current post&nbsp;:&nbsp;《C++的顶层const和底层const》
+			Current post&nbsp;:&nbsp;《U盘拷贝和写入》
 		
 	</p>
 
@@ -277,8 +277,8 @@
 	<div class="article-title">
 		<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
 		
-	<a href="/2019/09/12/顶层const和底层const/" itemprop="url">
-		C++的顶层const和底层const
+	<a href="/2019/10/11/U盘抽插/" itemprop="url">
+		U盘拷贝和写入
 	</a>
 
 	</div>
@@ -291,9 +291,9 @@
 
 	Posted on
 
-	<a href="/2019/09/12/顶层const和底层const/" itemprop="url">
-		<time datetime="2019-09-12T07:59:36.402Z" itemprop="datePublished">
-	  		2019-09-12
+	<a href="/2019/10/11/U盘抽插/" itemprop="url">
+		<time datetime="2019-10-11T08:00:20.040Z" itemprop="datePublished">
+	  		2019-10-11
 	  </time>
 	</a>
 	&nbsp;
@@ -309,9 +309,9 @@
 
 	Updated on
 
-	<a href="/2019/09/12/顶层const和底层const/" itemprop="url">
-		<time datetime="2019-09-12T07:59:36.402Z" itemprop="dateUpdated">
-	  		2019-09-12
+	<a href="/2019/10/11/U盘抽插/" itemprop="url">
+		<time datetime="2019-10-11T08:00:20.040Z" itemprop="dateUpdated">
+	  		2019-10-11
 	  </time>
 	</a> 
 
@@ -330,20 +330,18 @@
 	</div>
 
 	<div class="article-content" id="article-content">
-		<h2 id="如何区分顶层const和底层const"><a href="#如何区分顶层const和底层const" class="headerlink" title="如何区分顶层const和底层const"></a>如何区分顶层const和底层const</h2><p>###<br>1 指向常量的指针：代表不能改变其指向内容的指针。声明时const可以放在类型名前后都可，拿int类型来说，声明时：const int和int const 是等价的。声明指向常量的指针也就是底层const，下面举一个例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int num_a = 1;</span><br><span class="line">int const  *p_a = &amp;num_a; //底层const</span><br><span class="line">//*p_a = 2;  //错误，指向“常量”的指针不能改变所指的对象</span><br></pre></td></tr></table></figure>
+		<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><pre><code>Ｕ盘关于工程的读入和拷贝</code></pre><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
-<p>注意：指向“常量”的指针不代表它所指向的内容一定是常量，只是代表不能通过解引用符（操作符*）来改变它所指向的内容。上例中指针p_a指向的内容就不是常量，可以通过赋值语句：num_a=2;  来改变它所指向的内容。</p>
-<p>2 指针常量：代表指针本身是常量，声明时必须初始化，之后它存储的地址值就不能再改变。声明时const必须放在指针符号<em>后面，即：</em>const 。声明常量指针就是顶层const，下面举一个例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int num_b = 2;</span><br><span class="line">int *const p_b = &amp;num_b; //顶层const</span><br><span class="line">//p_b = &amp;num_a;  //错误，常量指针不能改变存储的地址值</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<p>其实顶层const和底层const很简单，一个指针本身添加const限定符就是顶层const，而指针所指的对象添加const限定符就是底层const。 </p>
-<h2 id="二-区分顶层const和底层const的作用"><a href="#二-区分顶层const和底层const的作用" class="headerlink" title="二 区分顶层const和底层const的作用"></a>二 区分顶层const和底层const的作用</h2><p>1 执行对象拷贝时有限制，常量的底层const不能赋值给非常量的底层const。也就是说，你只要能正确区分顶层const和底层const，你就能避免这样的赋值错误。下面举一个例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int num_c = 3;</span><br><span class="line">const int *p_c = &amp;num_c;  //p_c为底层const的指针</span><br><span class="line">//int *p_d = p_c;  //错误，不能将底层const指针赋值给非底层const指针</span><br><span class="line">const int *p_d = p_c; //正确，可以将底层const指针复制给底层const指针</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>2 使用命名的强制类型转换函数const_cast时，需要能够分辨底层const和顶层const，因为const_cast只能改变运算对象的底层const。下面举一个例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int num_e = 4;</span><br><span class="line">const int *p_e = &amp;num_e;</span><br><span class="line">//*p_e = 5;  //错误，不能改变底层const指针指向的内容</span><br><span class="line">int *p_f = const_cast&lt;int *&gt;(p_e);  //正确，const_cast可以改变运算对象的底层const。但是使用时一定要知道num_e不是const的类型。</span><br><span class="line">*p_f = 5;  //正确，非顶层const指针可以改变指向的内容</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 	
 	</div>
 	
@@ -362,12 +360,8 @@
 	<span>
 		<a href="javascript: window.scrollTo(0, 0);">To Top</a>
 		
-			<a href="/2019/10/11/U盘抽插/" title="U盘拷贝和写入" rel="prev">
-				&laquo;Pre post
-			</a>
 		
-		
-			<a href="/2019/09/04/如何修复端口占用问题。/" title="如何修复端口占用问题" rel="next">
+			<a href="/2019/09/12/顶层const和底层const/" title="C++的顶层const和底层const" rel="next">
 				Next post&raquo;
 			</a>
 			
@@ -388,27 +382,22 @@
 			
 					<li>
 						<div class="relate-post-text">
-							<a class="relate-post-title" href="/2019/10/11/U盘抽插/" title="U盘拷贝和写入">
-								U盘拷贝和写入			
+							<a class="relate-post-title" href="/2019/09/12/顶层const和底层const/" title="C++的顶层const和底层const">
+								C++的顶层const和底层const			
 							</a>
 							<p class="relate-post-date">
 								<i class="fa fa-calendar"></i>
-								十月 11日, 2019				
+								九月 12日, 2019				
 							</p>
 							<p class="relate-post-content">
-								Quick StartＵ盘关于工程的读入和拷贝Create a new post1$ hexo new "My New Post"
-
-More info: Writing
-Run server1$ hexo server
-
-More ...
+								如何区分顶层const和底层const###1 指向常量的指针：代表不能改变其指向内容的指针。声明时const可以放在类型名前后都可，拿int类型来说，声明时：const int和int const 是等价的。声明指向常量的指针也就是...
 							</p>
 						</div>
 
 						<div class="relate-post-cover">
-							<a href="/2019/10/11/U盘抽插/" title="U盘拷贝和写入">				
+							<a href="/2019/09/12/顶层const和底层const/" title="C++的顶层const和底层const">				
 								
-								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="U盘拷贝和写入"/>
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/cart_cover.jpg" alt="C++的顶层const和底层const"/>
 							</a>
 						</div>
 					</li>											
