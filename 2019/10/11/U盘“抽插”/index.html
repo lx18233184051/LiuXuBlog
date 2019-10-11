@@ -292,7 +292,7 @@
 	Posted on
 
 	<a href="/2019/10/11/U盘“抽插”/" itemprop="url">
-		<time datetime="2019-10-11T09:16:04.225Z" itemprop="datePublished">
+		<time datetime="2019-10-11T09:19:34.410Z" itemprop="datePublished">
 	  		2019-10-11
 	  </time>
 	</a>
@@ -310,7 +310,7 @@
 	Updated on
 
 	<a href="/2019/10/11/U盘“抽插”/" itemprop="url">
-		<time datetime="2019-10-11T09:16:04.225Z" itemprop="dateUpdated">
+		<time datetime="2019-10-11T09:19:34.410Z" itemprop="dateUpdated">
 	  		2019-10-11
 	  </time>
 	</a> 
@@ -337,8 +337,9 @@
 <p>第二行非常重要，因为他表示udev规则存储的目录，这个目录存储的是以.rules结束的文件。每一个文件处理一系列规则来帮助udev分配名字给设备文件以保证能被内核识别。<br>你的/etc/udev/rules.d下面可能有好几个udev规则文件，这些文件一部分是udev包安装的，另外一部分则是可能是别的硬件或者软件包生成的。比如在Fedora Core 5系统上，sane-backends包就会安装60-libsane.rules文件，另外initscripts包会安装60-net.rules文件。这些规则文件的文件名通常是两个数字开头，它表示系统应用该规则的顺序。<br>udev 规则的匹配键<br>ACTION： 　　 　　　　　　事件 (uevent) 的行为，例如：add( 添加设备 )、remove( 删除设备 )。<br>KERNEL： 　　 　　　　　　内核设备名称，例如：sda, cdrom。<br>DEVPATH：　　　　　　　   设备的 devpath 路径。<br>SUBSYSTEM： 　　　　　　 设备的子系统名称，例如：sda 的子系统为 block。<br>BUS： 　　　　　　　　　　 设备在 devpath 里的总线名称，例如：usb。<br>DRIVER： 　　　　 　　　　 设备在 devpath 里的设备驱动名称，例如：ide-cdrom。<br>ID： 　　　　　　　 　　　　设备在 devpath 里的识别号。<br>SYSFS{filename}： 　　　　设备的 devpath 路径下，设备的属性文件“filename”里的内容。<br>　　　　　　　　　　　　　　　例如：SYSFS{model}==“ST936701SS”表示：如果设备的型号为 ST936701SS，则该设备匹配该 匹配键。<br>　　　　　　　　　　　　　　　在一条规则中，可以设定最多五条 SYSFS 的 匹配键。<br>ENV{key}： 　　　　　　 　 环境变量。在一条规则中，可以设定最多五条环境变量的 匹配键。<br>PROGRAM：　　　　　　　　调用外部命令。<br>RESULT： 　　　　　　　　  外部命令 PROGRAM 的返回结果。<br>udev 的重要赋值键<br>NAME：　　　　　　　　　　　在 /dev下产生的设备文件名。只有第一次对某个设备的 NAME 的赋值行为生效，之后匹配的规则再对该设备的 NAME 赋值行为将被忽略。如果没有任何规则对设备的 NAME 赋值，udev 将使用内核设备名称来产生设备文件。<br>SYMLINK：　　　　　　　　　 为 /dev/下的设备文件产生符号链接。由于 udev 只能为某个设备产生一个设备文件，所以为了不覆盖系统默认的 udev 规则所产生的文件，推荐使用符号链接。<br>OWNER, GROUP, MODE：　　为设备设定权限。<br>ENV{key}：　　　　　　　　　导入一个环境变量。<br>    下面写一个Ｕ盘自动加载的UDEV规则：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">KERNEL==<span class="string">"sd[a-z]"</span>, NAME=<span class="string">"%k"</span>, SYMLINK+=<span class="string">"usb%m"</span>, GROUP=<span class="string">"users"</span>, OPTIONS=<span class="string">"last_rule"</span></span><br><span class="line">ACTION==<span class="string">"add"</span>, KERNEL==<span class="string">"sd[a-z][0-9]"</span>, SYMLINK+=<span class="string">"usb%n"</span>, GROUP=<span class="string">"users"</span>, NAME=<span class="string">"%k"</span></span><br><span class="line">ACTION==<span class="string">"add"</span>, KERNEL==<span class="string">"sd[a-z][0-9]"</span>, RUN+=<span class="string">"/bin/mkdir -p /mnt/usb%n"</span></span><br><span class="line">ACTION==<span class="string">"add"</span>, KERNEL==<span class="string">"sd[a-z][0-9]"</span>, PROGRAM==<span class="string">"/lib/udev/vol_id -t %N"</span>, RESULT==<span class="string">"vfat"</span>, RUN+=<span class="string">"/bin/mount -t vfat -o rw,noauto,sync,dirsync,noexec,nodev,noatime,dmask=000,fmask=111 /dev/%k /mnt/usb%n"</span>, OPTIONS=<span class="string">"last_rule"</span></span><br><span class="line">ACTION==<span class="string">"add"</span>, KERNEL==<span class="string">"sd[a-z][0-9]"</span>, RUN+=<span class="string">"/bin/mount -t auto -o rw,noauto,sync,dirsync,noexec,nodev,noatime /dev/%k /mnt/usb%n"</span>, OPTIONS=<span class="string">"last_rule"</span></span><br><span class="line">ACTION==<span class="string">"remove"</span>, KERNEL==<span class="string">"sd[a-z][0-9]"</span>, RUN+=<span class="string">"/bin/umount -l /mnt/usb%n"</span></span><br><span class="line">ACTION==<span class="string">"remove"</span>, KERNEL==<span class="string">"sd[a-z][0-9]"</span>, RUN+=<span class="string">"/bin/rmdir /mnt/usb%n"</span>, OPTIONS=<span class="string">"last_rule"</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="了解这些规则之后，只需要把这些udev规则放到-etc-udev-rules-d-下任何一个文件名以-rules结尾的文件中，例如-etc-udev-rules-d-sda-rules。"><a href="#了解这些规则之后，只需要把这些udev规则放到-etc-udev-rules-d-下任何一个文件名以-rules结尾的文件中，例如-etc-udev-rules-d-sda-rules。" class="headerlink" title="了解这些规则之后，只需要把这些udev规则放到/etc/udev/rules.d/下任何一个文件名以.rules结尾的文件中，例如/etc/udev/rules.d/sda.rules。"></a>了解这些规则之后，只需要把这些udev规则放到/etc/udev/rules.d/下任何一个文件名以.rules结尾的文件中，例如/etc/udev/rules.d/sda.rules。</h3><h3 id="U盘挂载"><a href="#U盘挂载" class="headerlink" title="U盘挂载"></a>U盘挂载</h3><pre><code>利用以上规则进行Ｕ盘挂载，会出现非root权限不能进行对Ｕ盘进行写操作。所以执行自己的程序可执行文件时要以sudo身份进行执行。这样才可以正常读写。上述规则就会把Ｕ盘挂载到/mnt/usb%ｎ文件夹中，如果想写死这个目录，请直接更改这个就可以比如更改成/mnt/usb，这样就直接写到/mnt/usb目录下。</code></pre><h3 id="项目拷贝"><a href="#项目拷贝" class="headerlink" title="项目拷贝"></a>项目拷贝</h3><pre><code>内部开发的项目都是文件夹和内部的配置同名，则判定这是一个工程，然后利用popen管道来执行cp命令。
-OK,that&apos;s all.</code></pre>	
+<h3 id="了解这些规则之后，只需要把这些udev规则放到-etc-udev-rules-d-下任何一个文件名以-rules结尾的文件中，例如-etc-udev-rules-d-sda-rules。"><a href="#了解这些规则之后，只需要把这些udev规则放到-etc-udev-rules-d-下任何一个文件名以-rules结尾的文件中，例如-etc-udev-rules-d-sda-rules。" class="headerlink" title="了解这些规则之后，只需要把这些udev规则放到/etc/udev/rules.d/下任何一个文件名以.rules结尾的文件中，例如/etc/udev/rules.d/sda.rules。"></a>了解这些规则之后，只需要把这些udev规则放到/etc/udev/rules.d/下任何一个文件名以.rules结尾的文件中，例如/etc/udev/rules.d/sda.rules。</h3><h3 id="U盘挂载"><a href="#U盘挂载" class="headerlink" title="U盘挂载"></a>U盘挂载</h3><p>利用以上规则进行Ｕ盘挂载，会出现非root权限不能进行对Ｕ盘进行写操作。所以执行自己的程序可执行文件时要以sudo身份进行执行。这样才可以正常读写。上述规则就会把Ｕ盘挂载到/mnt/usb%ｎ文件夹中，如果想写死这个目录，请直接更改这个就可以比如更改成/mnt/usb，这样就直接写到/mnt/usb目录下。</p>
+<h3 id="项目拷贝"><a href="#项目拷贝" class="headerlink" title="项目拷贝"></a>项目拷贝</h3><p>内部开发的项目都是文件夹和内部的配置同名，则判定这是一个工程，然后利用popen管道来执行cp命令。<br>    OK,that’s all.</p>
+	
 	</div>
 	
 	<div id="current-post-cover" data-scr="/img/cart_cover.jpg"></div>
